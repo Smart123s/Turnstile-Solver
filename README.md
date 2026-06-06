@@ -98,9 +98,13 @@ A Python-based Turnstile solver using the patchright library, featuring multi-th
      ```
 
 6. **Start testing**:
-   - Run the script (Check [🔧 Command line arguments](#-command-line-arguments) for better setup):
+   - For an interactive testing menu, run:
      ```bash
-     python api_solver.py
+     python main.py
+     ```
+   - To start the API server directly with arguments (Check [🔧 Command line arguments](#-command-line-arguments) for better setup):
+     ```bash
+     python -m turnstile_solver.api_solver
      ```
      
 ---
@@ -134,6 +138,48 @@ docker run -d -p 3389:3389 -p 5000:5000 -e TZ=Asia/Baku --name turnstile_solver 
    - **Username:** root
    - **Password:** root
 4. After this, you can start the solver by navigating to the `Turnstile-Solver` folder.
+
+---
+
+### 🐍 Python Direct Usage (Using as a Library)
+You can use the solver directly within your Python projects.
+
+First, install the package via pip:
+```bash
+pip install git+https://github.com/Theyka/Turnstile-Solver.git
+```
+
+Then, you can use the exposed methods:
+
+**Synchronous Example:**
+```python
+from turnstile_solver import sync_get_turnstile_token
+
+result = sync_get_turnstile_token(
+    url="https://example.com",
+    sitekey="your_sitekey",
+    headless=True,
+    browser_type="chromium"
+)
+print(result)
+```
+
+**Asynchronous Example:**
+```python
+import asyncio
+from turnstile_solver import async_get_turnstile_token
+
+async def main():
+    result = await async_get_turnstile_token(
+        url="https://example.com",
+        sitekey="your_sitekey",
+        headless=True,
+        browser_type="chromium"
+    )
+    print(result)
+
+asyncio.run(main())
+```
 
 ---
 
