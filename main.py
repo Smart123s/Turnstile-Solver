@@ -5,9 +5,9 @@ import threading
 import asyncio
 from typing import Dict
 from queue import Queue
-from api_solver import create_app
-from sync_solver import get_turnstile_token as sync_solve
-from async_solver import get_turnstile_token as async_solve
+from turnstile_solver import create_app
+from turnstile_solver import sync_get_turnstile_token as sync_solve
+from turnstile_solver import async_get_turnstile_token as async_solve
 
 
 class CustomLogger(logging.Logger):

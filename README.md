@@ -137,6 +137,48 @@ docker run -d -p 3389:3389 -p 5000:5000 -e TZ=Asia/Baku --name turnstile_solver 
 
 ---
 
+### 🐍 Python Direct Usage (Using as a Library)
+You can use the solver directly within your Python projects.
+
+First, install the package via pip:
+```bash
+pip install git+https://github.com/Theyka/Turnstile-Solver.git
+```
+
+Then, you can use the exposed methods:
+
+**Synchronous Example:**
+```python
+from turnstile_solver import sync_get_turnstile_token
+
+result = sync_get_turnstile_token(
+    url="https://example.com",
+    sitekey="your_sitekey",
+    headless=True,
+    browser_type="chromium"
+)
+print(result)
+```
+
+**Asynchronous Example:**
+```python
+import asyncio
+from turnstile_solver import async_get_turnstile_token
+
+async def main():
+    result = await async_get_turnstile_token(
+        url="https://example.com",
+        sitekey="your_sitekey",
+        headless=True,
+        browser_type="chromium"
+    )
+    print(result)
+
+asyncio.run(main())
+```
+
+---
+
 ### 📡 API Documentation
 #### Solve turnstile
 ```http
