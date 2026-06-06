@@ -123,8 +123,20 @@ class AsyncTurnstileSolver:
             try:
                 turnstile_check = await page.input_value("[name=cf-turnstile-response]")
                 if turnstile_check == "":
-
-                    await page.click("//div[@class='cf-turnstile']", timeout=3000)
+                    try:
+                        iframe_element = await page.query_selector('iframe[src*="challenges.cloudflare.com"], iframe[src*="turnstile"], iframe[title*="widget"]')
+                        if iframe_element:
+                            frame = await iframe_element.content_frame()
+                            if frame:
+                                checkbox = await frame.query_selector('input[type="checkbox"]')
+                                if checkbox:
+                                    await checkbox.click(timeout=2000)
+                                else:
+                                    await iframe_element.click(timeout=1000)
+                        else:
+                            await page.click("//div[@class='cf-turnstile']", timeout=2000)
+                    except Exception:
+                        pass
                     await asyncio.sleep(0.5)
                 else:
                     element = await page.query_selector("[name=cf-turnstile-response]")

@@ -122,8 +122,20 @@ class TurnstileSolver:
             try:
                 turnstile_check = page.input_value("[name=cf-turnstile-response]")
                 if turnstile_check == "":
-
-                    page.click("//div[@class='cf-turnstile']", timeout=3000)
+                    try:
+                        iframe_element = page.query_selector('iframe[src*="challenges.cloudflare.com"], iframe[src*="turnstile"], iframe[title*="widget"]')
+                        if iframe_element:
+                            frame = iframe_element.content_frame()
+                            if frame:
+                                checkbox = frame.query_selector('input[type="checkbox"]')
+                                if checkbox:
+                                    checkbox.click(timeout=2000)
+                                else:
+                                    iframe_element.click(timeout=1000)
+                        else:
+                            page.click("//div[@class='cf-turnstile']", timeout=2000)
+                    except Exception:
+                        pass
                     time.sleep(0.5)
                 else:
                     element = page.query_selector("[name=cf-turnstile-response]")
